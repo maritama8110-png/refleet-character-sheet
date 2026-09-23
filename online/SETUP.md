@@ -1,6 +1,6 @@
 # RE:FLEET オンライン保存 接続手順
 
-現行公開版を維持したまま、`feat/online-save-sharing` に実装を準備しています。Supabaseプロジェクト `lssyovciwwxwzjeolyzy`（東京・Free）の作成、schema.sql適用、config.jsの公開キー設定まで完了。オンライン機能はメール配信設定待ちで未公開です。
+オンライン保存・共有機能をmainへ反映し、GitHub Pagesへの公開成功とログイン欄の表示を確認済みです。Supabaseプロジェクト `lssyovciwwxwzjeolyzy`（東京・Free）、schema.sql、公開キーの設定済み。Resend SMTP保存のユーザー報告後、初回登録とログインの日本語OTPテンプレートを保存し、Site URLを本番URLに設定しました。実メール受信・ログインと実サービスの保存共有はユーザーによる確認待ちです。
 
 ## 接続後の作業
 
@@ -10,7 +10,7 @@
 4. PLのメールアドレスへの配信に使う独自SMTPを設定する。Supabase標準メールはプロジェクトチーム向けの試用制限があるため、一般利用の配信には使わない。SMTPの認証情報はSupabaseの設定画面だけに登録する。
 5. AuthのSite URLを `https://maritama8110-png.github.io/refleet-character-sheet/` に設定する。本実装はメールコード入力方式で、メールリンクのリダイレクトは使用しない。
 6. `config.js` にSupabaseのProject URLとpublishable keyを設定する。secret / service_role / データベースパスワードはHTML・JavaScript・GitHubに置かない。
-7. 下記の実サービス検証後、GitHubのmainへ反映する。
+7. 公開後、下記の実サービス検証を行う。
 
 ## 利用動作
 
@@ -43,10 +43,10 @@
 
 ## 実施済みの検証
 
-`npm install && npm test` で再実行できます。PostgreSQL互換のPGliteで2ユーザー・匿名ユーザーのアクセス制限、競合拒否、共有停止を検証済み。jsdomと模擬APIでオンライン保存・共有・ローカルデータ保護を検証済み。実際のSupabaseへの接続・メール配信・ブラウザ表示は未検証です。
+`npm install && npm test` で再実行できます。PostgreSQL互換のPGliteで2ユーザー・匿名ユーザーのアクセス制限、競合拒否、共有停止を検証済み。jsdomと模擬APIでオンライン保存・共有・ローカルデータ保護を検証済み。公開ページのログイン欄表示を実ブラウザで確認済み。実際のメール受信・ログイン・保存共有は未検証です。
 
 ## 2026-09-23 再開時の確認
 
-管理画面にログイン済み。Authentication > Emailsに「Set up custom SMTP to edit templates」と表示。2026-06-03以降の新規Freeプロジェクトでは標準SMTP利用時に本文編集不可のため、メールOTP用に外部SMTPが必要。Resend連携を候補として提示済み・未接続。送信ドメインの検証とSMTP設定の完了後、Magic Link / Confirm SignupのメールがOTPを含むことを確認する。実メール配信・実ブラウザの保存共有テストは未実施。
+Resend用DNS登録後、ユーザーがSMTP設定を保存。Magic link or OTP / Confirm sign upの本文を `{{ .Token }}` を含む日本語メールに変更し、保存ボタンが無効化されたことを確認済み。Site URLも保存・再読込で確認済み。PR #2をmainへマージし、Pagesデプロイ成功。次は実メール受信・実サービスの保存共有確認。
 
 SupabaseのアドバイザーによるSECURITY DEFINER警告は共有RPCと所有者チェック付き書込RPCに対するもの。公開テーブルの匿名SELECT/書込関数実行は拒否され、共有トークン関数のみ匿名実行可能であることをSQLで確認済み。
