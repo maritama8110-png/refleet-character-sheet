@@ -1,6 +1,6 @@
 # RE:FLEET オンライン保存 接続手順
 
-現行公開版を維持したまま、`feat/online-save-sharing` に実装を準備しています。Supabaseの接続情報をまだ設定していないため、オンライン機能は未稼働です。
+現行公開版を維持したまま、`feat/online-save-sharing` に実装を準備しています。Supabaseプロジェクト `lssyovciwwxwzjeolyzy`（東京・Free）の作成、schema.sql適用、config.jsの公開キー設定まで完了。オンライン機能はメール配信設定待ちで未公開です。
 
 ## 接続後の作業
 
@@ -44,3 +44,9 @@
 ## 実施済みの検証
 
 `npm install && npm test` で再実行できます。PostgreSQL互換のPGliteで2ユーザー・匿名ユーザーのアクセス制限、競合拒否、共有停止を検証済み。jsdomと模擬APIでオンライン保存・共有・ローカルデータ保護を検証済み。実際のSupabaseへの接続・メール配信・ブラウザ表示は未検証です。
+
+## 2026-09-23 再開時の確認
+
+管理画面にログイン済み。Authentication > Emailsに「Set up custom SMTP to edit templates」と表示。2026-06-03以降の新規Freeプロジェクトでは標準SMTP利用時に本文編集不可のため、メールOTP用に外部SMTPが必要。Resend連携を候補として提示済み・未接続。送信ドメインの検証とSMTP設定の完了後、Magic Link / Confirm SignupのメールがOTPを含むことを確認する。実メール配信・実ブラウザの保存共有テストは未実施。
+
+SupabaseのアドバイザーによるSECURITY DEFINER警告は共有RPCと所有者チェック付き書込RPCに対するもの。公開テーブルの匿名SELECT/書込関数実行は拒否され、共有トークン関数のみ匿名実行可能であることをSQLで確認済み。
