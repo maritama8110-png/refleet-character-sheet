@@ -1,6 +1,11 @@
 {
   "name": "refleet-character-sheet",
   "private": true,
-  "scripts": {"test": "node tests/online-sql.cjs && node tests/online-ui.cjs"},
-  "devDependencies": {"@electric-sql/pglite": "0.5.8", "jsdom": "30.1.1"}
+  "scripts": {
+    "test": "node tests/online-sql.cjs && node tests/online-ui.cjs && node tests/growth.cjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
+    "jsdom": "30.1.1"
+  }
 }
